@@ -1,12 +1,12 @@
 # Story 002: Boss Paladin có mẫu đòn đọc được
 
 > **Epic**: Heretic
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Feature
 > **Type**: Integration
 > **Estimate**: L
 > **Manifest Version**: N/A (minimal — no control manifest)
-> **Last Updated**: —
+> **Last Updated**: 2026-11-02
 
 ## Context
 
@@ -55,10 +55,9 @@
 ## Files
 
 - `Assets/Scripts/Boss/PaladinBoss.cs`
-- `Assets/Scenes/BossArena.unity`
-- `Assets/Tests/PlayMode/PaladinFightTests.cs`
-
----
+- `Assets/Scripts/Boss/TempPlayer.cs` (temporary player stand-in; story 003 replaces it)
+- `Assets/Scripts/Boss/BossArenaBootstrap.cs` (builds the arena at runtime and holds the tunable settings)
+- `Assets/Scenes/BossArena.unity` (test scene built by the lead, not the programmer)
 
 ## QA Test Cases
 
@@ -79,3 +78,10 @@
 
 - Depends on: `production/epics/heretic/story-001-slowmo-qte.md`
 - Unlocks: `production/epics/heretic/story-006-ability-reward.md`
+
+## Completion Notes
+**Completed**: 2026-11-02
+**Criteria**: 7/7 passing (none deferred)
+**Deviations**: Advisory: the boss start position (`_arenaRight - 3f` in `ResetFight`) is hard-coded, not tunable. Out of scope, approved: temporary player stand-in `TempPlayer` and `BossArenaBootstrap` (story 003 replaces the stand-in); the heavy attack ignores dash invulnerability by design. A lunge bug (boss stuck at the arena edge from a float rounding mismatch) was found in play and fixed.
+**Test Evidence**: waived at qa.level minimal; screenshot at `production/qa/evidence/story-002-paladin-boss/01-heavy-qte-counter.png`
+**Reviewed by**: self, no independent review
