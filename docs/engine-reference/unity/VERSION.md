@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | **Engine Version** | Unity 6.3 LTS |
-| **Installed at pin time** | NOT DETERMINED — `/setup-engine` §3 probes the installed editor and records the result here. |
+| **Installed at pin time** | 6000.3.27f2 (changeset 22188f149405) — matches the 6.3 LTS pin; 6000.1.1f1 also present (checked 2026-11-02) |
 | **Release Date** | December 2025 |
 | **Latest editor on the pinned line** | 6000.3.26f1 (Oct 8, 2026) |
 | **Project Pinned** | 2026-02-13 |

@@ -175,3 +175,22 @@ $RECYCLE.BIN/
 # the project root. Anchored so a reports/ folder elsewhere stays tracked.
 /reports/
 /test-results/
+
+# === Unity (generated) ===
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+/[Bb]uild/
+/[Bb]uilds/
+/[Mm]emoryCaptures/
+/[Rr]ecordings/
+*.sln
+*.pidb
+*.booproj
+*.unityproj
+.vsconfig
+/test-results/
+*.slnx
+.vscode/
