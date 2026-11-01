@@ -5,7 +5,7 @@
 ## Core loop
 - Đi qua màn: chạy, nhảy, dash, tránh chướng ngại, chém quái nhỏ.
 - Gặp boss Paladin: né đòn thường; khi hắn tung chiêu mạnh thì slow-motion và hiện chuỗi mũi tên.
-- Bấm đúng: parry (chuỗi ngắn) hoặc phản đòn gây sát thương (chuỗi dài). Bấm sai: mất máu.
+- Bấm đúng: parry (chuỗi ngắn) hoặc phản đòn gây sát thương (chuỗi dài). Bấm sai: phải bấm lại từ phím đầu; hết giờ: mất máu.
 - Hạ boss: lấy lại một bộ phận quỷ, mở một năng lực mới, rồi sang màn kế.
 
 ## Player goal & fail state — what "working" looks like
