@@ -1,12 +1,12 @@
 # Story 003: Nhân vật chạy, nhảy, dash, chém, chết
 
 > **Epic**: Heretic
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Core
 > **Type**: Visual/Feel
 > **Estimate**: M
 > **Manifest Version**: N/A (minimal — no control manifest)
-> **Last Updated**: —
+> **Last Updated**: 2026-11-02
 
 ## Context
 
@@ -57,9 +57,13 @@
 
 - `Assets/Scripts/Player/PlayerController.cs`
 - `Assets/Scripts/Player/PlayerHealth.cs`
-- `Assets/Art/Characters/Imp/demon_sheet.png.meta` (cắt khung)
-
----
+- `Assets/Scripts/Player/PlayerAnimator.cs`
+- `Assets/Scripts/Player/TrainingDummy.cs` (test target for the slash; story 004 makes real enemies)
+- `Assets/Scripts/Player/PlayerTestBootstrap.cs` (builds the test arena and holds the tunable settings)
+- `Assets/Scripts/Combat/IDamageable.cs` (shared target interface)
+- `Assets/Editor/DemonSheetSlicer.cs` (cuts the sheet into 14 sprites)
+- `Assets/Art/Characters/Imp/demon_sheet.png` (+ `.meta`): dash, attack and death frames added, now 14 frames
+- `Assets/Scenes/PlayerTest.unity` (test scene built by the lead)
 
 ## QA Test Cases
 
@@ -80,3 +84,10 @@
 
 - Depends on: None
 - Unlocks: `production/epics/heretic/story-004-enemies.md`, `production/epics/heretic/story-005-level-one.md`
+
+## Completion Notes
+**Completed**: 2026-11-02
+**Criteria**: 7/7 passing (none deferred)
+**Deviations**: None advisory. Out of scope, agreed: the real player runs in its own test scene `PlayerTest` and is not yet in the boss arena (story 005 assembles it); extra files `TrainingDummy`, `PlayerTestBootstrap`, `IDamageable`, `DemonSheetSlicer`, `PlayerTest.unity` and an updated `design/art/demon-preview.png`. The dash, attack and death frames are placeholder art drawn in code.
+**Test Evidence**: waived at qa.level minimal for tests; screenshots at `production/qa/evidence/story-003-player-movement/` and signed-off record at `production/qa/evidence/story-003-player-movement-evidence.md`
+**Reviewed by**: self, no independent review

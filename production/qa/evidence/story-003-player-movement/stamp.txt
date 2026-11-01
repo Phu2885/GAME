@@ -1,0 +1,9 @@
+Reviewed-Content-Hash: Assets/Scripts/Player/PlayerController.cs e398c012b824b8f147459e67954ac29d6f873c92
+Reviewed-Content-Hash: Assets/Scripts/Player/PlayerHealth.cs 372133a71026e3a206229d8477c26b7391e2d581
+Reviewed-Content-Hash: Assets/Scripts/Player/PlayerAnimator.cs 72b8b204eae0ae249a7aae9f55265fa14daa5c56
+Reviewed-Content-Hash: Assets/Scripts/Player/TrainingDummy.cs 1d1f460f7cf28316e2de6cc05e990906ab4dc5f9
+Reviewed-Content-Hash: Assets/Scripts/Player/PlayerTestBootstrap.cs 427a21f89a48345d7d093dfd276f92ccd71fe34c
+Reviewed-Content-Hash: Assets/Scripts/Combat/IDamageable.cs 7137be67e913b3fa89f99a92c8d81c342b850416
+Reviewed-Content-Hash: Assets/Editor/DemonSheetSlicer.cs 32f5206f1288c7696fcae7ad6b6f1a7832ecf0b1
+Reviewed-Content-Hash: Assets/Art/Characters/Imp/demon_sheet.png fef0dd109dcecc33fb512447f4ec7bca22921e10
+Reviewed-Content-Hash: Assets/Scenes/PlayerTest.unity d8c1241c84b5e974ed320e9aa19bb38332bb2b03
