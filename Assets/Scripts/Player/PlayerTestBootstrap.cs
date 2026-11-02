@@ -69,24 +69,7 @@ namespace Heretic.Player
             }
 
             // Player: pivot at the feet, so the transform sits on the ground.
-            var playerObject = new GameObject("Player");
-            playerObject.transform.position = _playerStart;
-            var playerRenderer = playerObject.AddComponent<SpriteRenderer>();
-            playerRenderer.sortingOrder = 3;
-            PlayerController controller = playerObject.AddComponent<PlayerController>();
-            _health = playerObject.AddComponent<PlayerHealth>();
-            _health.Initialize(_healthSettings);
-            controller.Initialize(_playerSettings, _health);
-
-            if (_frames != null && _frames.Length >= 14)
-            {
-                PlayerAnimator animator = playerObject.AddComponent<PlayerAnimator>();
-                animator.Initialize(_animationSettings, _frames, controller, _health);
-            }
-            else
-            {
-                Debug.LogWarning("PlayerTestBootstrap: assign the 14 demon_sheet sprites (demon_0 ... demon_13) to _frames; the player is invisible without them.");
-            }
+            PlayerFactory.Create(_playerStart, _playerSettings, _healthSettings, _animationSettings, _frames, out _health);
         }
 
         private void Update()

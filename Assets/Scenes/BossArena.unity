@@ -174,17 +174,51 @@ MonoBehaviour:
     HeavyTelegraphColor: {r: 1, g: 0.1, b: 0.1, a: 1}
     ShockwaveColor: {r: 1, g: 0.8, b: 0.3, a: 1}
     FlashesPerSecond: 4
+  _playerStart: {x: -8, y: 0}
+  _frames:
+  - {fileID: -389729923, guid: e7b57c0c8eaee4fb68fddaaf8c652b4f, type: 3}
+  - {fileID: -675543483, guid: e7b57c0c8eaee4fb68fddaaf8c652b4f, type: 3}
+  - {fileID: 1162873539, guid: e7b57c0c8eaee4fb68fddaaf8c652b4f, type: 3}
+  - {fileID: -108275765, guid: e7b57c0c8eaee4fb68fddaaf8c652b4f, type: 3}
+  - {fileID: -274820385, guid: e7b57c0c8eaee4fb68fddaaf8c652b4f, type: 3}
+  - {fileID: -1761120499, guid: e7b57c0c8eaee4fb68fddaaf8c652b4f, type: 3}
+  - {fileID: -1219836334, guid: e7b57c0c8eaee4fb68fddaaf8c652b4f, type: 3}
+  - {fileID: 1914650989, guid: e7b57c0c8eaee4fb68fddaaf8c652b4f, type: 3}
+  - {fileID: 294327534, guid: e7b57c0c8eaee4fb68fddaaf8c652b4f, type: 3}
+  - {fileID: -167976953, guid: e7b57c0c8eaee4fb68fddaaf8c652b4f, type: 3}
+  - {fileID: 649680184, guid: e7b57c0c8eaee4fb68fddaaf8c652b4f, type: 3}
+  - {fileID: -992668528, guid: e7b57c0c8eaee4fb68fddaaf8c652b4f, type: 3}
+  - {fileID: 1023769888, guid: e7b57c0c8eaee4fb68fddaaf8c652b4f, type: 3}
+  - {fileID: -1046560815, guid: e7b57c0c8eaee4fb68fddaaf8c652b4f, type: 3}
   _playerSettings:
-    Size: {x: 0.8, y: 1.2}
-    MaxHealth: 5
+    ColliderSize: {x: 0.6, y: 1.3}
+    ColliderOffset: {x: 0, y: 0.65}
     MoveSpeed: 8
     JumpSpeed: 15
     GravityScale: 4
+    JumpCutMultiplier: 0.4
+    CoyoteSeconds: 0.1
+    JumpBufferSeconds: 0.1
     DashSpeed: 20
     DashSeconds: 0.18
     DashCooldownSeconds: 0.8
     DashInvulnerableSeconds: 0.25
+    AttackDamage: 1
+    AttackReach: 1.4
+    AttackHeight: 1.1
+    AttackCenterHeight: 0.7
+    AttackWindupSeconds: 0.08
+    AttackActiveSeconds: 0.08
+    AttackRecoverySeconds: 0.12
+    AttackCooldownSeconds: 0.4
+  _healthSettings:
+    MaxHealth: 5
     HitInvulnerableSeconds: 1
+  _animationSettings:
+    IdleFps: 3
+    RunFps: 10
+    DeathFps: 6
+    InvulnerableAlpha: 0.5
 --- !u!4 &164423162
 Transform:
   m_ObjectHideFlags: 0

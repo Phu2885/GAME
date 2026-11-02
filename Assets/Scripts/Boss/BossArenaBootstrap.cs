@@ -1,4 +1,5 @@
 using Heretic.Combat;
+using Heretic.Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,7 +7,7 @@ namespace Heretic.Boss
 {
     /// <summary>
     /// TEST/ARENA BOOTSTRAP for story 002. Attach to an empty GameObject in an empty scene that has a camera.
-    /// Builds at runtime: ground and walls, the temporary player, the Paladin boss, the QTE controller
+    /// Builds at runtime: ground and walls, the real player (story 003), the Paladin boss, the QTE controller
     /// (story 001) and an OnGUI HUD (health bars, boss state, QTE prompt, VICTORY / DEFEAT, R to restart).
     /// Placeholder visuals only: coloured squares from a Point-filtered texture at 32 PPU.
     /// </summary>
@@ -22,11 +23,18 @@ namespace Heretic.Boss
         [Header("Boss tuning (persists in the scene)")]
         [SerializeField] private PaladinBossSettings _bossSettings = new PaladinBossSettings();
 
-        [Header("Temporary player tuning (persists in the scene)")]
-        [SerializeField] private TempPlayerSettings _playerSettings = new TempPlayerSettings();
+        [Header("Player (persists in the scene)")]
+        [SerializeField] private Vector2 _playerStart = new Vector2(-8f, 0f);
+
+        [Header("Sprite sheet: 14 sprites in order demon_0 ... demon_13 (0-1 idle, 2-5 run, 6 jump, 7 dash, 8-10 attack, 11-13 death)")]
+        [SerializeField] private Sprite[] _frames;
+        [SerializeField] private PlayerSettings _playerSettings = new PlayerSettings();
+        [SerializeField] private PlayerHealthSettings _healthSettings = new PlayerHealthSettings();
+        [SerializeField] private PlayerAnimationSettings _animationSettings = new PlayerAnimationSettings();
 
         private Sprite _squareSprite;
-        private TempPlayer _player;
+        private PlayerController _player;
+        private PlayerHealth _health;
         private PaladinBoss _boss;
         private SlowMotionController _qte;
         private FightResult _result = FightResult.Fighting;
@@ -59,15 +67,14 @@ namespace Heretic.Boss
 
             _qte = gameObject.AddComponent<SlowMotionController>();
 
-            GameObject playerObject = CreateSquare("TempPlayer", new Vector2(-8f, 1f), Vector2.one, new Color(0.3f, 0.8f, 1f), 3);
-            _player = playerObject.AddComponent<TempPlayer>();
-            _player.Initialize(_playerSettings);
+            // Player: pivot at the feet, so the start position sits on the ground (y = 0).
+            _player = PlayerFactory.Create(_playerStart, _playerSettings, _healthSettings, _animationSettings, _frames, out _health);
 
             GameObject bossObject = CreateSquare("PaladinBoss", Vector2.zero, Vector2.one, new Color(0.85f, 0.85f, 0.9f), 1);
             _boss = bossObject.AddComponent<PaladinBoss>();
             _boss.Initialize(_bossSettings, _player, _qte, -_arenaHalfWidth, _arenaHalfWidth, 0f);
 
-            _player.Died += HandlePlayerDied;
+            _health.Died += HandlePlayerDied;
             _boss.BossDefeated += HandleBossDefeated;
         }
 
@@ -82,7 +89,7 @@ namespace Heretic.Boss
 
         private void OnDestroy()
         {
-            if (_player != null) _player.Died -= HandlePlayerDied;
+            if (_health != null) _health.Died -= HandlePlayerDied;
             if (_boss != null) _boss.BossDefeated -= HandleBossDefeated;
         }
 
@@ -93,7 +100,7 @@ namespace Heretic.Boss
 
             // Fight lost or won: restart from the beginning with full health for both.
             _boss.ResetFight();
-            _player.ResetPlayer();
+            _health.ResetPlayer();
             _result = FightResult.Fighting;
         }
 
@@ -137,8 +144,8 @@ namespace Heretic.Boss
             float width = Screen.width;
             float height = Screen.height;
 
-            DrawBar(new Rect(20f, 20f, 250f, 24f), _player.Health / (float)_player.MaxHealth, new Color(0.3f, 0.8f, 1f));
-            GUI.Label(new Rect(20f, 46f, 300f, 28f), $"Player {_player.Health}/{_player.MaxHealth}", _label);
+            DrawBar(new Rect(20f, 20f, 250f, 24f), _health.Health / (float)_health.MaxHealth, new Color(0.3f, 0.8f, 1f));
+            GUI.Label(new Rect(20f, 46f, 300f, 28f), $"Player {_health.Health}/{_health.MaxHealth}", _label);
 
             DrawBar(new Rect(width * 0.5f - 250f, 20f, 500f, 24f), _boss.Health / (float)_boss.MaxHealth, new Color(0.9f, 0.2f, 0.2f));
             GUI.Label(new Rect(width * 0.5f - 250f, 46f, 500f, 28f), $"Paladin {_boss.Health}/{_boss.MaxHealth}   State: {_boss.State} ({_boss.CurrentAttack})", _label);
@@ -168,7 +175,7 @@ namespace Heretic.Boss
                 GUI.Label(new Rect(0f, height * 0.4f, width, 100f), $"{message}\nPress R to restart the fight", _big);
             }
 
-            GUI.Label(new Rect(20f, height - 34f, width, 28f), "A/D move   W/Space jump   Left Shift dash   Arrow keys = QTE   R restart (after the fight ends)", _label);
+            GUI.Label(new Rect(20f, height - 34f, width, 28f), "A/D move   W/Space jump   Left Shift dash   J attack   Arrow keys = QTE   R restart (after the fight ends)", _label);
         }
 
         private static void DrawBar(Rect rect, float fraction, Color fill)

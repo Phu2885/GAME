@@ -57,7 +57,8 @@ namespace Heretic.Enemies
             // Wall probe: a box ahead of the body, kept above the feet so the floor is not hit.
             var wallSize = new Vector2(_settings.WallProbeDistance, bounds.size.y * 0.6f);
             var wallCenter = new Vector2(edgeX + _direction * wallSize.x * 0.5f, bounds.center.y);
-            bool wallAhead = OverlapsSolid(wallCenter, wallSize);
+            // Another walker ahead counts as an obstacle (TD-001); only the wall probe checks for it.
+            bool wallAhead = OverlapsSolid(wallCenter, wallSize, true);
 
             // Ground probe: a box ahead of the feet reaching below them.
             var groundSize = new Vector2(_settings.GroundProbeWidth, _settings.GroundProbeDepth + FeetRaise);

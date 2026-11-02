@@ -56,7 +56,15 @@ namespace Heretic.Player
         /// <param name="amount">Health to remove.</param>
         public void TakeDamage(int amount)
         {
-            if (IsDead || IsInvulnerable) return;
+            TakeDamage(amount, false);
+        }
+
+        /// <summary>Takes damage unless dead; invulnerability is skipped when asked (undodgeable attacks, kill zones).</summary>
+        /// <param name="amount">Health to remove.</param>
+        /// <param name="ignoreInvulnerability">True to hurt the player through dash or post-hit invulnerability.</param>
+        public void TakeDamage(int amount, bool ignoreInvulnerability)
+        {
+            if (IsDead || (IsInvulnerable && !ignoreInvulnerability)) return;
 
             Health = Mathf.Max(0, Health - amount);
             _invulnerableTimer = _s.HitInvulnerableSeconds;

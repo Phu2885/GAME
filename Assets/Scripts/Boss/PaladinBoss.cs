@@ -1,5 +1,6 @@
 using System;
 using Heretic.Combat;
+using Heretic.Player;
 using UnityEngine;
 
 namespace Heretic.Boss
@@ -84,7 +85,8 @@ namespace Heretic.Boss
         private PaladinBossSettings _s;
         private SpriteRenderer _renderer;
         private Color _baseColor;
-        private TempPlayer _player;
+        private PlayerController _player;
+        private PlayerHealth _playerHealth;
         private SlowMotionController _qte;
         private Transform[] _waves;
         private float _arenaLeft;
@@ -120,16 +122,17 @@ namespace Heretic.Boss
 
         /// <summary>Wires the boss to the arena, the player and the QTE controller, then starts a fresh fight.</summary>
         /// <param name="settings">Tunable values (owned by the bootstrap so they persist in the scene).</param>
-        /// <param name="player">Player that takes the boss's damage.</param>
+        /// <param name="player">Real player (story 003) that takes the boss's damage; must also have a <see cref="PlayerHealth"/>.</param>
         /// <param name="qte">Story 001 controller whose heavy-attack API and result events are used.</param>
         /// <param name="arenaLeft">World X of the left arena wall (inner face).</param>
         /// <param name="arenaRight">World X of the right arena wall (inner face).</param>
         /// <param name="groundY">World Y of the ground surface.</param>
-        public void Initialize(PaladinBossSettings settings, TempPlayer player, SlowMotionController qte, float arenaLeft, float arenaRight, float groundY)
+        public void Initialize(PaladinBossSettings settings, PlayerController player, SlowMotionController qte, float arenaLeft, float arenaRight, float groundY)
         {
             _s = settings;
             transform.localScale = new Vector3(_s.Size.x, _s.Size.y, 1f);
             _player = player;
+            _playerHealth = player.GetComponent<PlayerHealth>();
             _qte = qte;
             _arenaLeft = arenaLeft;
             _arenaRight = arenaRight;
@@ -308,7 +311,7 @@ namespace Heretic.Boss
                 // The shockwave runs along the ground: only a grounded player is hit.
                 if (_player.IsGrounded && Overlaps(position, _s.ShockwaveSize, _player.Bounds))
                 {
-                    _player.TakeDamage(_s.SlamDamage);
+                    _playerHealth.TakeDamage(_s.SlamDamage);
                 }
             }
 
@@ -326,7 +329,7 @@ namespace Heretic.Boss
             transform.position = position;
 
             // The whole body hurts: it is jumped over (player bottom above the boss top) or dashed through (i-frames).
-            if (Overlaps(position, _s.Size, _player.Bounds)) _player.TakeDamage(_s.LungeDamage);
+            if (Overlaps(position, _s.Size, _player.Bounds)) _playerHealth.TakeDamage(_s.LungeDamage);
 
             // A tolerance: an exact float comparison against the clamp limit can miss by one rounding step.
             const float EdgeTolerance = 0.001f;
@@ -354,7 +357,7 @@ namespace Heretic.Boss
             if (State != BossState.HeavyQte) return;
             // The heavy attack cannot be dodged, so it ignores dash invulnerability.
             EnterState(BossState.Recover, _s.HeavyRecoverSeconds);
-            _player.TakeDamage(_s.HeavyFailDamage, true);
+            _playerHealth.TakeDamage(_s.HeavyFailDamage, true);
         }
 
         private void HideWaves()

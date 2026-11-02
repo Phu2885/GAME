@@ -91,6 +91,9 @@ namespace Heretic.Player
             }
         }
 
+        /// <summary>World-space bounds of the player's collider.</summary>
+        public Bounds Bounds => _collider.bounds;
+
         /// <summary>True while standing on a collider (probe a few hundredths below the feet).</summary>
         public bool IsGrounded
         {
@@ -120,10 +123,23 @@ namespace Heretic.Player
             _body.constraints = RigidbodyConstraints2D.FreezeRotation;
             // Fixed steps are not scaled by timeScale, so interpolation keeps motion smooth in slow motion.
             _body.interpolation = RigidbodyInterpolation2D.Interpolate;
+            // A sleeping body stops receiving OnTriggerStay2D, so a player standing still on spikes would stop being hurt.
+            _body.sleepMode = RigidbodySleepMode2D.NeverSleep;
             _body.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
             _body.sharedMaterial = new PhysicsMaterial2D("PlayerNoFriction") { friction = 0f, bounciness = 0f };
 
             _health.WasReset += ClearState;
+        }
+
+        /// <summary>Stops input and movement (fight over). A health reset re-enables the player.</summary>
+        public void Halt()
+        {
+            enabled = false;
+            _dashTimer = 0f;
+            _attacking = false;
+            MoveInput = 0f;
+            _body.gravityScale = _s.GravityScale;
+            _body.linearVelocity = Vector2.zero;
         }
 
         private void OnDestroy()
@@ -133,6 +149,7 @@ namespace Heretic.Player
 
         private void ClearState()
         {
+            enabled = true;
             _coyoteTimer = 0f;
             _bufferTimer = 0f;
             _dashTimer = 0f;

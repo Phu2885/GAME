@@ -124,15 +124,17 @@ namespace Heretic.Enemies
             }
         }
 
-        /// <summary>Overlap test for a probe box that ignores this enemy, triggers and dynamic bodies.</summary>
+        /// <summary>Overlap test for a probe box that ignores this enemy, triggers and dynamic bodies (the player, etc.).</summary>
         /// <param name="center">Box center.</param>
         /// <param name="size">Box size.</param>
-        protected bool OverlapsSolid(Vector2 center, Vector2 size)
+        /// <param name="includeOtherEnemies">True to also count another enemy (anything with an <see cref="EnemyBase"/>) as solid.</param>
+        protected bool OverlapsSolid(Vector2 center, Vector2 size, bool includeOtherEnemies = false)
         {
             Physics2D.OverlapBox(center, size, 0f, ContactFilter2D.noFilter, _overlaps);
             foreach (Collider2D other in _overlaps)
             {
                 if (other == Collider || other.isTrigger) continue;
+                if (includeOtherEnemies && other.TryGetComponent(out EnemyBase _)) return true;
                 Rigidbody2D otherBody = other.attachedRigidbody;
                 if (otherBody != null && otherBody.bodyType == RigidbodyType2D.Dynamic) continue;
                 return true;
