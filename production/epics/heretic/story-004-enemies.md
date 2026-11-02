@@ -1,12 +1,12 @@
 # Story 004: Hai loại quái (bay và không bay)
 
 > **Epic**: Heretic
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Feature
 > **Type**: Logic
 > **Estimate**: M
 > **Manifest Version**: N/A (minimal — no control manifest)
-> **Last Updated**: —
+> **Last Updated**: 2026-11-02
 
 ## Context
 
@@ -52,11 +52,14 @@
 
 ## Files
 
-- `Assets/Scripts/Enemies/GroundEnemy.cs`
-- `Assets/Scripts/Enemies/FlyingEnemy.cs`
-- `Assets/Tests/EditMode/EnemyBehaviourTests.cs`
-
----
+- `Assets/Scripts/Enemies/EnemyBase.cs` (shared health, flash, contact damage, death; `EnemySettings`)
+- `Assets/Scripts/Enemies/GroundEnemy.cs` (walker: patrol, turns at ledges and walls)
+- `Assets/Scripts/Enemies/FlyingEnemy.cs` (flyer on a sine path)
+- `Assets/Scripts/Enemies/EnemyPatrolLogic.cs` (pure turn decision)
+- `Assets/Scripts/Enemies/FlightPath.cs` (pure flight-path function)
+- `Assets/Scripts/Enemies/EnemyTestBootstrap.cs` (test spawner)
+- `Assets/Prefabs/Enemies/GroundEnemy.prefab`, `FlyingEnemy.prefab` (built by the lead)
+- `Assets/Scenes/EnemyTest.unity` (test scene built by the lead; reuses the story-003 player)
 
 ## QA Test Cases
 
@@ -77,3 +80,10 @@
 
 - Depends on: `production/epics/heretic/story-003-player-movement.md`
 - Unlocks: `production/epics/heretic/story-005-level-one.md`
+
+## Completion Notes
+**Completed**: 2026-11-02
+**Criteria**: 5/5 passing (none deferred)
+**Deviations**: Advisory, logged as tech debt TD-001 and TD-002 in `docs/tech-debt-register.md`: two ground enemies walking toward each other collide and stop (the walker ignores dynamic bodies as walls); ledge turning was never exercised because the test room has no ledge. Out of scope: shared `EnemyBase`/`EnemySettings`, the `EnemyTest` scene and bootstrap, the two prefabs built by the lead.
+**Test Evidence**: waived at qa.level minimal; screenshot at `production/qa/evidence/story-004-enemies/01-ground-and-flying-enemies.png`
+**Reviewed by**: self, no independent review
